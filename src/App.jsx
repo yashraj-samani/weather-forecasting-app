@@ -7,8 +7,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/state/:stateName" element={<StateWeatherPage />} />
+        <Route path="/weather-forecasting-app/" element={<HomePage />} />
+        <Route
+          path="/weather-forecasting-app/state/:stateName"
+          element={<StateWeatherPage />}
+        />
       </Routes>
     </Router>
   );
