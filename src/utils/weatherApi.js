@@ -1,6 +1,7 @@
-const API_KEY = "be0a10c8aa9d2f83387b41603ceae6fb"; // Replace with your OpenWeatherMap API key
+const API_KEY = "be0a10c8aa9d2f83387b41603ceae6fb";
 const BASE_URL = "https://api.openweathermap.org/data/2.5/";
 
+// Fetches weather data for a specific location (city)
 const fetchWeatherData = async (location) => {
   try {
     const response = await fetch(
@@ -16,9 +17,9 @@ const fetchWeatherData = async (location) => {
   }
 };
 
+// Fetches weather data for a specific state.
 const fetchStateWeather = async (stateName) => {
   try {
-    // Placeholder for fetching state-level weather. You could map states to cities or get from a geo API
     const response = await fetch(
       `${BASE_URL}weather?q=${stateName}&appid=${API_KEY}&units=metric`
     );

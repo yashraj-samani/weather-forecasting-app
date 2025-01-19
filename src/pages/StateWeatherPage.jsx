@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchStateWeather, fetchWeatherData } from "../utils/weatherApi";
-import styled from "styled-components";
+import WeatherCard from "../components/WeatherCard";
+import SearchBar from "../components/SearchBar";
 
 const StateWeatherPage = () => {
   const { stateName } = useParams();
@@ -11,8 +12,8 @@ const StateWeatherPage = () => {
   const [error, setError] = useState("");
   const [bgColor, setBgColor] = useState("lightblue");
 
+  //fetch weather data
   useEffect(() => {
-    // Fetch state-level weather on page load
     const getStateWeather = async () => {
       try {
         const data = await fetchStateWeather(stateName);
@@ -25,84 +26,74 @@ const StateWeatherPage = () => {
     getStateWeather();
   }, [stateName]);
 
+  //switch for background color
   const updateBackground = (weatherCondition) => {
     switch (weatherCondition.toLowerCase()) {
       case "clear":
       case "sunny":
-        setBgColor("orange"); // Sunny or clear weather
+        setBgColor("orange");
         break;
       case "rain":
       case "storm":
-        setBgColor("lightblue"); // Rainy or stormy weather
+        setBgColor("lightblue");
         break;
       case "clouds":
-        setBgColor("gray"); // Cloudy weather
+        setBgColor("gray");
         break;
       default:
-        setBgColor("lightgreen"); // Default condition
+        setBgColor("lightgreen");
     }
   };
 
-  const handleSearchCity = async () => {
-    if (!searchCity) return;
+  //searched city logic
+  const handleSearchCity = async (city) => {
+    if (!city) return;
 
     try {
-      const data = await fetchWeatherData(searchCity);
+      const data = await fetchWeatherData(city);
       setCityWeatherData(data);
       setError("");
-      console.log(data);
     } catch (err) {
-      setCityWeatherData("");
+      setCityWeatherData(null);
       setError("City not found.");
     }
   };
 
   return (
-    <div
-      style={{ backgroundColor: bgColor, minHeight: "100vh", padding: "20px" }}
-    >
-      <h1>{stateName} Weather Overview</h1>
-
-      {/* State-level weather */}
-      {weatherData ? (
-        <div>
-          <h2>Current Weather</h2>
-          <p>Temperature: {weatherData.main.temp}°C</p>
-          <p>Condition: {weatherData.weather[0].main}</p>
-          <p>Humidity: {weatherData.main.humidity}%</p>
-          <p>Wind Speed: {weatherData.wind.speed} m/s</p>
-        </div>
-      ) : (
-        <p>Loading state weather...</p>
-      )}
-
-      {/* City Search */}
-      <div>
-        <h3>Search City Weather</h3>
-        <input
-          type="text"
-          value={searchCity}
-          onChange={(e) => setSearchCity(e.target.value)}
-          placeholder="Enter city name"
-        />
-        <button onClick={handleSearchCity}>Search</button>
-
-        {/* Display searched city weather */}
-        {cityWeatherData ? (
-          <div>
-            <h4>{cityWeatherData.name} Weather</h4>
-            <p>Temperature: {cityWeatherData.main.temp}°C</p>
-            <p>Condition: {cityWeatherData.weather[0].main}</p>
-            <p>Humidity: {cityWeatherData.main.humidity}%</p>
-            <p>Wind Speed: {cityWeatherData.wind.speed} m/s</p>
-          </div>
-        ) : (
-          ""
-        )}
+    <div>
+      <div className="weather-page-header">
+        <h1>{stateName} Weather Overview</h1>
       </div>
+      <div className="page-container" style={{ backgroundColor: bgColor }}>
+        <div className="content-container">
+          {/* State-level weather */}
+          <div className="card">
+            <WeatherCard
+              title={`${stateName} State Weather`}
+              data={weatherData}
+            />
+          </div>
 
-      {/* Error handling */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+          {/* City weather after search */}
+          <div className="card">
+            <SearchBar
+              stateName={stateName}
+              onSearch={(city) => {
+                setSearchCity(city);
+                handleSearchCity(city);
+              }}
+            />
+            {cityWeatherData && (
+              <WeatherCard
+                title={`${searchCity.toLowerCase()} Weather`}
+                data={cityWeatherData}
+              />
+            )}
+            {/* Error handling */}
+            {error && <p className="error-text">{error}</p>}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
