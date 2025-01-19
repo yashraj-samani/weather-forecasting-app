@@ -1,10 +1,28 @@
+.homePageHeader {
+  font-size: 2.5rem; /* Adjust font size */
+  color: #4a90e2; /* Blue color */
+  text-align: center; /* Center align the text */
+  margin-top: 20px; /* Add spacing at the top */
+  font-family: "Arial", sans-serif; /* Font family */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
 .tooltip {
   position: absolute;
+  top: 500px; /* Place it vertically within the container */
+  left: 40px; /* Fixed position on the left side */
+  width: 100px; /* Set a fixed width for the tooltip box */
   background: white;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 8px;
-  font-size: 14px;
+  font-size: 20px;
   pointer-events: none;
   z-index: 10;
+  white-space: normal; /* Allow text to wrap if it's long */
+}
+
+.composableMapContainer {
+  width: 100%;
+  height: auto;
 }

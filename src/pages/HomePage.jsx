@@ -4,7 +4,7 @@ import Map from "../components/Map";
 function HomePage() {
   return (
     <div>
-      <h1>Interactive India Map</h1>
+      <h1 className="homePageHeader">India Weather Map</h1>
       <Map />
     </div>
   );

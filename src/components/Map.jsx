@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import indiaGeoJson from "/src/assets/Indian_States.json"; // Update the path accordingly
+import indiaStateMapJson from "/src/assets/indian-states.json";
 
-const Map = () => {
+function Map() {
   const [tooltipContent, setTooltipContent] = useState("");
   const navigate = useNavigate();
 
@@ -29,9 +29,9 @@ const Map = () => {
           scale: 1000,
           center: [80, 22],
         }}
-        style={{ width: "100%", height: "auto" }}
+        className="composableMapContainer"
       >
-        <Geographies geography={indiaGeoJson}>
+        <Geographies geography={indiaStateMapJson}>
           {({ geographies }) =>
             geographies.map((geo) => (
               <Geography
@@ -62,6 +62,6 @@ const Map = () => {
       {tooltipContent && <div className="tooltip">{tooltipContent}</div>}
     </div>
   );
-};
+}
 
 export default Map;
